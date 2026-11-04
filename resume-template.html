@@ -22,7 +22,7 @@
     --desk:#e9e3d8;
     --ink:#15171c;
     --ink-soft:#464b54;
-    --ink-mute:#858a94;
+    --ink-mute:#6e737e;
     --rule:#ded9cf;
     --rule-strong:#b8b1a4;
 
@@ -429,26 +429,34 @@
   @page{ size:A4; margin:14mm 16mm 12mm; }
 
   @media print{
-    html, body{ background:#fff !important; }
-    .stage{ display:block; min-height:0; padding:0; background:#fff !important; }
+    html, body{ background:#fff; }
+    .stage{ display:block; min-height:0; padding:0; background:#fff; }
     .stage::before{ display:none; }
-    .paper-toolbar{ display:none !important; }
+    .paper-toolbar{ display:none; }
     .page{
       width:auto;
       min-height:0;
       margin:0;
       padding:0;
       border-radius:0;
-      box-shadow:none !important;
-      animation:none !important;
+      box-shadow:none;
+      animation:none;
     }
-    .masthead, .summary, .sec{ animation:none !important; opacity:1 !important; transform:none !important; }
+    .masthead, .summary, .sec{ animation:none; opacity:1; transform:none; }
     .page[contenteditable="true"]{ outline:0; }
     .entry, .sec, .edu-item{ break-inside:avoid; page-break-inside:avoid; }
     .sec-title{ break-after:avoid; page-break-after:avoid; }
     .entry-org, .entry-head{ break-after:avoid; page-break-after:avoid; }
-    a{ color:inherit !important; text-decoration:none !important; }
+    a{ color:inherit; text-decoration:none; border-bottom:0; }
     *{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
+
+  /* 尊重系统「减少动态效果」偏好 */
+  @media (prefers-reduced-motion:reduce){
+    .page, .sec, .summary, .masthead{ animation:none; }
+    .tb-btn, .sw{ transition:none; }
+    .tb-btn:active{ transform:none; }
+    .sw:hover{ transform:none; }
   }
 </style>
 </head>
@@ -639,7 +647,7 @@
 
     swatches.forEach(function (btn) {
       btn.addEventListener('click', function () {
-        document.documentElement.setAttribute('data-theme', btn.getAttribute('data-theme-set'));
+        document.documentElement.dataset.theme = btn.dataset.themeSet;
         swatches.forEach(function (other) {
           other.setAttribute('aria-pressed', other === btn ? 'true' : 'false');
         });
